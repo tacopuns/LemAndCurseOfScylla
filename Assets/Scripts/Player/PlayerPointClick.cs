@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,16 +9,15 @@ public class PlayerPointClick : MonoBehaviour, IDataGrabber
     private NavMeshAgent agent;
     private SpriteRenderer spriteRenderer;
     public GameObject inventoryGO;
-    /*public float minScale = 0.6f;  // Minimum scale factor
-    public float maxScale = 1.0f;  // Maximum scale factor
-    public float scaleThreshold = 20.0f;  // Where should sprite be at max scale i made this up btw*/
 
     public Animator camAnimator;
     int PlayerCam = 0;
     int DialogueCam = 0;
 
+    [Header("Keyboard Movement")]
+    public float keyboardSpeed = 15f; // Speed multiplier for WASD movement
+    private bool usingKeyboard = false;
 
-    
 
     public void LoadData(GameData data)
     {
@@ -30,7 +28,6 @@ public class PlayerPointClick : MonoBehaviour, IDataGrabber
     {
         data.position = transform.position;
     }
-
 
     private void Start()
     {
@@ -44,54 +41,82 @@ public class PlayerPointClick : MonoBehaviour, IDataGrabber
         camAnimator.enabled = true;
 
         PlayerCam = 1;
-
     }
 
     private void Update()
     {
         HandleMouseInput();
-        //AdjustPerspective();
+        HandleKeyboardInput();
         OpenInventory();
 
         camAnimator.SetInteger("PlayerCam", PlayerCam);
         camAnimator.SetInteger("DialogueCam", DialogueCam);
-
     }
 
     private void HandleMouseInput()
     {
-        if (Input.GetMouseButtonDown(0) && !PauseMenu.instance.GetPauseStatus() && GameManager.instance.lemCanMove && !InventoryManager.instance.currentlyHoveringItem) // 0 for left mouse button, 1 for right mouse button
+        if (Input.GetMouseButtonDown(0) && 
+            !PauseMenu.instance.GetPauseStatus() && 
+            GameManager.instance.lemCanMove && 
+            !InventoryManager.instance.currentlyHoveringItem)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target = new Vector3(mousePosition.x, mousePosition.y, 0f);
+            agent.isStopped = false; // Resume NavMeshAgent movement
             agent.SetDestination(new Vector3(target.x, target.y, 0f));
+            usingKeyboard = false; // Mouse takes priority
             HandleSpriteFlip();
-
         }
-
-
-        else if (Input.GetMouseButtonDown(0) && !PauseMenu.instance.GetPauseStatus() && !GameManager.instance.lemCanMove)
-            {
-                if (DialogueManager.instance.currentNPC == null) return;
-                DialogueManager.instance.ContinueDialogue();
-                
-            }
+        else if (Input.GetMouseButtonDown(0) && 
+                 !PauseMenu.instance.GetPauseStatus() && 
+                 !GameManager.instance.lemCanMove)
+        {
+            if (DialogueManager.instance.currentNPC == null) return;
+            DialogueManager.instance.ContinueDialogue();
         }
+    }
 
+    private void HandleKeyboardInput()
+    {
+       if (PauseMenu.instance.GetPauseStatus() || !GameManager.instance.lemCanMove) return;
+
+    float moveX = Input.GetAxisRaw("Horizontal"); // A/D
+    float moveY = Input.GetAxisRaw("Vertical");   // W/S
+
+    Vector3 inputDir = new Vector3(moveX, moveY, 0f).normalized;
+
+    if (inputDir.magnitude > 0.1f) // Active WASD input
+    {
+        usingKeyboard = true;
+
+        // Stop following mouse path
+        agent.ResetPath();
+
+        // Calculate a new target slightly in front of the player
+        Vector3 nextPos = transform.position + inputDir * keyboardSpeed * Time.deltaTime;
+
+        // Continuously move the agent toward that target
+        agent.isStopped = false;
+        agent.SetDestination(nextPos);
+
+        // Flip sprite based on movement direction
+        if (moveX < 0) spriteRenderer.flipX = false;
+        else if (moveX > 0) spriteRenderer.flipX = true;
+    }
+    else if (usingKeyboard) // No input, stop
+    {
+        agent.ResetPath();
+        agent.isStopped = true;
+    }
+    }
 
     public void SetTarget(Vector3 targetPositionToSet)
     {
         target = targetPositionToSet;
+        agent.isStopped = false;
         agent.SetDestination(new Vector3(target.x, target.y, 0f));
+        usingKeyboard = false;
     }
-    
-    /*private void AdjustPerspective()
-    {
-        float currentYPosition = transform.position.y;
-        float t = Mathf.InverseLerp(scaleThreshold, -10, currentYPosition); 
-        float targetScale = Mathf.Lerp(minScale, maxScale, t);
-        transform.localScale = new Vector3(targetScale, targetScale, 1);
-    }*/
 
     private void HandleSpriteFlip()
     {
@@ -115,17 +140,9 @@ public class PlayerPointClick : MonoBehaviour, IDataGrabber
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (!inventoryGO.activeInHierarchy)
-            {
-                inventoryGO.SetActive(true);
-            }
-            else
-            {
-                inventoryGO.SetActive(false);
-            }
+            inventoryGO.SetActive(!inventoryGO.activeInHierarchy);
         }
     }
-
 
     public void LemTalking()
     {
@@ -140,7 +157,4 @@ public class PlayerPointClick : MonoBehaviour, IDataGrabber
         PlayerCam = 1;
         DialogueCam = 0;
     }
-
-
-
 }

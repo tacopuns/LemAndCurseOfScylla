@@ -5404,6 +5404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryGO: {fileID: 1502965279}
   camAnimator: {fileID: 722072655}
+  keyboardSpeed: 490
 --- !u!95 &722072655
 Animator:
   serializedVersion: 5
@@ -5518,7 +5519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18678808a7eaf314eb10abfcea8a0860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationDistance: 8.55
+  activationDistance: 4
   minigameCanvas: {fileID: 1055839202}
 --- !u!114 &744116699
 MonoBehaviour:
@@ -5581,7 +5582,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 22.448555, y: 26.412886}
+  m_Offset: {x: 19.275612, y: 24.335363}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -5592,7 +5593,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 13.33046, y: 6.6778984}
+  m_Size: {x: 5.5491943, y: 10.832943}
   m_EdgeRadius: 0
 --- !u!114 &744116701
 MonoBehaviour:
@@ -12736,6 +12737,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PowerMeter
       objectReference: {fileID: 0}
+    - target: {fileID: 382001075793155660, guid: b566c509a654aa8498b37f3d4266f396, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2906050705531776918, guid: b566c509a654aa8498b37f3d4266f396, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383536924833254491, guid: b566c509a654aa8498b37f3d4266f396, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3495510911267511275, guid: b566c509a654aa8498b37f3d4266f396, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -15408,6 +15421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1931212436}
   - component: {fileID: 1931212438}
+  - component: {fileID: 1931212439}
   m_Layer: 0
   m_Name: Maren
   m_TagString: Untagged
@@ -15484,6 +15498,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!111 &1931212439
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931212435}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 5e0b87a00ae8f3b4b869e7d09829447e, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 5e0b87a00ae8f3b4b869e7d09829447e, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1944786664
 GameObject:
   m_ObjectHideFlags: 0
@@ -15539,6 +15569,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1970688637}
   - component: {fileID: 1970688638}
+  - component: {fileID: 1970688639}
   m_Layer: 0
   m_Name: FishingTester
   m_TagString: Untagged
@@ -15555,8 +15586,8 @@ Transform:
   m_GameObject: {fileID: 1970688636}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 34.86792, y: -7.218809, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 37.74, y: 0.56, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 744116697}
@@ -15603,7 +15634,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5d9c51ccaecce884b9d4a64588273ad4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6aee18f0ba1788b4092cabd25cb6055c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15614,6 +15645,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!111 &1970688639
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970688636}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 5e0b87a00ae8f3b4b869e7d09829447e, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 5e0b87a00ae8f3b4b869e7d09829447e, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1983480565
 GameObject:
   m_ObjectHideFlags: 0
@@ -15741,8 +15788,8 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 4.7815156, y: -3.2483292}
-      - {x: 0.57422245, y: 40.87326}
+    - - {x: 9.672392, y: -3.3570156}
+      - {x: 6.55196, y: 40.87326}
       - {x: -4.904939, y: 40.905895}
       - {x: -4.93, y: -3.19}
   m_UseDelaunayMesh: 0
